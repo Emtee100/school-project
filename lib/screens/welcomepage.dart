@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:klabs/components/onboardingScreen1.dart';
 import 'package:klabs/components/onboardingScreen2.dart';
 import 'package:klabs/components/onboardingScreen3.dart';
+import 'package:klabs/screens/signInScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
-
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
@@ -26,6 +27,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.dispose();
   }
 
+  bool _lastPage = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,16 +43,42 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: PageView(
                   controller: _controller,
                   children: const [ScreenOne(), ScreenTwo(), ScreenThree()],
+                  onPageChanged: (value) {
+                    if (value == 2) {
+                      setState(() {
+                        _lastPage = true;
+                      });
+                    } else {
+                      setState(() {
+                        _lastPage = false;
+                      });
+                    }
+                  },
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      _controller.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
-                    },
-                    child: Text('Previous')),
+                      onTap: () {
+                        _controller.previousPage(
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.decelerate);
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Text(
+                            'Previous',
+                            style: GoogleFonts.notoSans(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
+                          ))),
                   SmoothPageIndicator(
                     controller: _controller,
                     count: 3,
@@ -61,10 +90,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         dotWidth: 12),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      _controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
-                    },
-                    child: Text('Next'))
+                      onTap: () {
+                        _lastPage
+                            ? Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const SignIn();
+                                },
+                              ))
+                            : _controller.nextPage(
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.decelerate);
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 13.0),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Text(
+                            _lastPage ? 'Done' : 'Next',
+                            style: GoogleFonts.notoSans(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
+                          )))
                 ],
               ),
             ],
