@@ -36,7 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
-                height: 500,
+                height: 550,
                 child: PageView(
                   controller: _controller,
                   children: const [ScreenOne(), ScreenTwo(), ScreenThree()],
@@ -45,7 +45,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text('Previous'),
+                  GestureDetector(
+                    onTap: () {
+                      _controller.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+                    },
+                    child: Text('Previous')),
                   SmoothPageIndicator(
                     controller: _controller,
                     count: 3,
@@ -56,7 +60,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         dotHeight: 12,
                         dotWidth: 12),
                   ),
-                  const Text('Next')
+                  GestureDetector(
+                    onTap: () {
+                      _controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+                    },
+                    child: Text('Next'))
                 ],
               ),
             ],
