@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:klabs/components/thirdPartySignIn.dart';
+import 'package:klabs/screens/signUpScreen.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -10,12 +11,30 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
-  late GlobalKey _loginFormKey;
+  late GlobalKey<FormState> _loginFormKey;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  bool _emailError = false;
+  bool _passwordError = false;
   @override
   void initState() {
     // TODO: implement initState
     _loginFormKey = GlobalKey();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  login(){
+
   }
 
   @override
@@ -25,7 +44,17 @@ class _SignInFormState extends State<SignInForm> {
         child: Column(children: [
           TextFormField(
             autofocus: true,
+            autovalidateMode:  AutovalidateMode.onUserInteraction,
+            validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter an email address";
+                          }
+                          return null;
+                        },
+            controller: _emailController,
             decoration: InputDecoration(
+              errorText: _emailError ? "Input a valid email" : null,
+              errorStyle: GoogleFonts.notoSans(),
               labelText: "Email Address",
               labelStyle: GoogleFonts.notoSans(),
               border: const OutlineInputBorder(
@@ -33,31 +62,54 @@ class _SignInFormState extends State<SignInForm> {
               ),
             ),
             keyboardType: TextInputType.emailAddress,
+            style: GoogleFonts.notoSans(),
           ),
           const SizedBox(
             height: 30,
           ),
           TextFormField(
-            decoration: InputDecoration(
-              labelText: "Password",
-              labelStyle: GoogleFonts.notoSans(),
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _passwordController,
+              decoration: InputDecoration(
+                errorText: _passwordError ? "Enter a password" : null,
+                errorStyle: GoogleFonts.notoSans(),
+                labelText: "Password",
+                labelStyle: GoogleFonts.notoSans(),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
               ),
-            ),
+              style: GoogleFonts.notoSans(),
+              obscureText: true,
+              validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please a password";
+                          }
+                          return null;
+                        }
           ),
           const SizedBox(
             height: 30,
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                color: Theme.of(context).colorScheme.primaryContainer),
-            child: Text(
-              "Log in",
-              style: GoogleFonts.notoSans(),
+          GestureDetector(
+            onTap: () {
+              if(_loginFormKey.currentState!.validate()){
+login();
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  color: Theme.of(context).colorScheme.primaryContainer),
+              child: Text(
+                "Log in",
+                style: GoogleFonts.notoSans(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
+              ),
             ),
           ),
           const SizedBox(
@@ -101,10 +153,8 @@ class _SignInFormState extends State<SignInForm> {
                 style: GoogleFonts.notoSans(color: Colors.grey.shade700),
               ),
               GestureDetector(
-                // onTap: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => const SignUpForm())),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignUp())),
                 child: Text(
                   "Register",
                   style: GoogleFonts.notoSans(
