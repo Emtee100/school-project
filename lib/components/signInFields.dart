@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:klabs/components/thirdPartySignIn.dart';
@@ -33,8 +34,17 @@ class _SignInFormState extends State<SignInForm> {
     _passwordController.dispose();
   }
 
-  login(){
-
+  Future signInMethod() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        setState(() => _passwordError = true);
+      } else if (e.code == 'wrong-email') {
+        setState(() => _emailError = true);
+      }
+    }
   }
 
   @override
@@ -44,16 +54,16 @@ class _SignInFormState extends State<SignInForm> {
         child: Column(children: [
           TextFormField(
             autofocus: true,
-            autovalidateMode:  AutovalidateMode.onUserInteraction,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter an email address";
-                          }
-                          return null;
-                        },
+              if (value == null || value.isEmpty) {
+                return "Please enter an email address";
+              }
+              return null;
+            },
             controller: _emailController,
             decoration: InputDecoration(
-              errorText: _emailError ? "Input a valid email" : null,
+              errorText: _emailError ? "wrong email" : null,
               errorStyle: GoogleFonts.notoSans(),
               labelText: "Email Address",
               labelStyle: GoogleFonts.notoSans(),
@@ -68,10 +78,10 @@ class _SignInFormState extends State<SignInForm> {
             height: 30,
           ),
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: _passwordController,
               decoration: InputDecoration(
-                errorText: _passwordError ? "Enter a password" : null,
+                errorText: _passwordError ? "Wrong password" : null,
                 errorStyle: GoogleFonts.notoSans(),
                 labelText: "Password",
                 labelStyle: GoogleFonts.notoSans(),
@@ -82,24 +92,24 @@ class _SignInFormState extends State<SignInForm> {
               style: GoogleFonts.notoSans(),
               obscureText: true,
               validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please a password";
-                          }
-                          return null;
-                        }
-          ),
+                if (value == null || value.isEmpty) {
+                  return "Please a password";
+                }
+                return null;
+              }),
           const SizedBox(
             height: 30,
           ),
           GestureDetector(
             onTap: () {
-              if(_loginFormKey.currentState!.validate()){
-login();
+              if (_loginFormKey.currentState!.validate()) {
+                signInMethod();
               }
             },
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   color: Theme.of(context).colorScheme.primaryContainer),

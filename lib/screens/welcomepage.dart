@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:klabs/components/firebaseauthState.dart';
 import 'package:klabs/components/onboardingScreen1.dart';
 import 'package:klabs/components/onboardingScreen2.dart';
 import 'package:klabs/components/onboardingScreen3.dart';
-import 'package:klabs/screens/signInScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -94,7 +94,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         _lastPage
                             ? Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return const SignIn();
+                                  return const AuthPage();
                                 },
                               ))
                             : _controller.nextPage(

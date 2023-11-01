@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545934735255",
+    "project_id": "klabs-school-project",
+    "storage_bucket": "klabs-school-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545934735255:android:7ff0e69d582ea1340ef6d2",
+        "android_client_info": {
+          "package_name": "com.example.klabs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhgEJNogFxhSxSM3tXsPqNlqAybwgdwvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
