@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +17,7 @@ class _SignInFormState extends State<SignInForm> {
   late GlobalKey<FormState> _loginFormKey;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-  bool _emailError = false;
+  bool _invalidEmailError = false;
   bool _passwordError = false;
   @override
   void initState() {
@@ -26,14 +28,6 @@ class _SignInFormState extends State<SignInForm> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-  }
-
   Future signInMethod() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -41,8 +35,9 @@ class _SignInFormState extends State<SignInForm> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         setState(() => _passwordError = true);
-      } else if (e.code == 'wrong-email') {
-        setState(() => _emailError = true);
+      } else if (e.code == 'invalid-email') {
+        setState(() => _invalidEmailError = true);
+        print(e.code);
       }
     }
   }
@@ -63,7 +58,8 @@ class _SignInFormState extends State<SignInForm> {
             },
             controller: _emailController,
             decoration: InputDecoration(
-              errorText: _emailError ? "wrong email" : null,
+              errorText:
+                  _invalidEmailError ? 'Please enter a valid email' : null,
               errorStyle: GoogleFonts.notoSans(),
               labelText: "Email Address",
               labelStyle: GoogleFonts.notoSans(),
@@ -175,5 +171,12 @@ class _SignInFormState extends State<SignInForm> {
             ],
           )
         ]));
+  }
+ @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
   }
 }

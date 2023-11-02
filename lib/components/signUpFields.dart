@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:klabs/screens/homepage.dart';
 import 'package:klabs/screens/signInScreen.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -11,15 +14,27 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  bool _invalidEmail = false;
+  bool _weakPassword = false;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future signUpMethod() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
     } on FirebaseAuthException catch (e) {
-      print(e);
+      if (e.code == 'invalid-email') {
+        setState(() {
+          _invalidEmail = true;
+        });
+      } else if (e.code == 'weak-password') {
+        setState(() {
+          _weakPassword = true;
+        });
+      }
     }
+    
   }
 
   late GlobalKey<FormState> _signUpFormKey;
@@ -38,15 +53,7 @@ class _SignUpFormState extends State<SignUpForm> {
     _roleController = TextEditingController();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _fullNameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _roleController.dispose();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +93,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorText: _invalidEmail ? 'This email is not valid' : null,
+                errorStyle: GoogleFonts.notoSans(),
                 labelText: "Email Address",
                 labelStyle: GoogleFonts.notoSans(),
                 border: const OutlineInputBorder(
@@ -133,6 +142,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
               decoration: InputDecoration(
+                errorText: _weakPassword ? 'Weak password' : null,
+                errorStyle: GoogleFonts.notoSans(),
                 labelText: "Password",
                 labelStyle: GoogleFonts.notoSans(),
                 border: const OutlineInputBorder(
@@ -190,5 +201,14 @@ class _SignUpFormState extends State<SignUpForm> {
             )
           ],
         ));
+  }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _roleController.dispose();
   }
 }

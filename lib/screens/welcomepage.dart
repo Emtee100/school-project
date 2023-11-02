@@ -20,13 +20,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _controller.dispose();
-    super.dispose();
-  }
-
   bool _lastPage = false;
 
   @override
@@ -120,5 +113,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ],
           ),
         ));
+  }
+@override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
