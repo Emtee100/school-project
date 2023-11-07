@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,24 +18,39 @@ class _SignUpFormState extends State<SignUpForm> {
   bool _invalidEmail = false;
   bool _weakPassword = false;
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final db = FirebaseFirestore.instance;
 
-  Future signUpMethod() async {
+  Future <void> signUpMethod() async {
     try {
+      // this method creates a user
       await _auth.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
+        // this will set the invalid email boolean to true which will trigger the error text
         setState(() {
           _invalidEmail = true;
         });
       } else if (e.code == 'weak-password') {
+        // this will set the weak password boolean to true which will trigger the error text
         setState(() {
           _weakPassword = true;
         });
       }
     }
-    
+  }
+
+  Future<void> createUserRecord() async {
+    await db.collection('users').doc().set(<String, dynamic>{
+      'Full Name': _fullNameController.text.trim(),
+      'Email': _emailController.text.trim(),
+      'Role': _roleController.text.trim(),
+    });
   }
 
   late GlobalKey<FormState> _signUpFormKey;
@@ -44,7 +60,6 @@ class _SignUpFormState extends State<SignUpForm> {
   late TextEditingController _roleController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _signUpFormKey = GlobalKey();
     _fullNameController = TextEditingController();
@@ -52,8 +67,6 @@ class _SignUpFormState extends State<SignUpForm> {
     _passwordController = TextEditingController();
     _roleController = TextEditingController();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +154,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 }
                 return null;
               },
+              obscureText: true,
               decoration: InputDecoration(
                 errorText: _weakPassword ? 'Weak password' : null,
                 errorStyle: GoogleFonts.notoSans(),
@@ -156,9 +170,10 @@ class _SignUpFormState extends State<SignUpForm> {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async{
                 if (_signUpFormKey.currentState!.validate()) {
-                  signUpMethod();
+                  await signUpMethod();
+                  await createUserRecord();
                 }
               },
               child: Container(
@@ -202,7 +217,8 @@ class _SignUpFormState extends State<SignUpForm> {
           ],
         ));
   }
-@override
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
