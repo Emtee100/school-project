@@ -48,7 +48,6 @@ class _SignInFormState extends State<SignInForm> {
         key: _loginFormKey,
         child: Column(children: [
           TextFormField(
-            autofocus: true,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value == null || value.isEmpty) {

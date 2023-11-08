@@ -75,7 +75,6 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Column(
           children: [
             TextFormField(
-              autofocus: true,
               controller: _fullNameController,
               style: GoogleFonts.notoSans(),
               autovalidateMode: AutovalidateMode.onUserInteraction,
