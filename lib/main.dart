@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'K.L.A.B.S',
       theme: klabsTheme.lightTheme,
       darkTheme: klabsTheme.darkTheme,
       debugShowCheckedModeBanner: false,
