@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:klabs/screens/signInScreen.dart';
 
-import '../screens/homepage.dart';
+import '../screens/homeScreen.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -20,7 +20,7 @@ class _FirebasaeAuthState extends State<AuthPage> {
         builder: (context, snapshot) {
           // is user logged in
           if (snapshot.hasData) {
-            return const HomePage();
+            return const HomeScreen();
           }
           //is user logged out
           else {
