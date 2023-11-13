@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:klabs/providers/fireStoreProvider.dart';
 import 'package:provider/provider.dart';
 
-class LabScreen extends StatelessWidget {
+class LabScreen extends StatefulWidget {
   const LabScreen({super.key});
 
+  @override
+  State<LabScreen> createState() => _LabScreenState();
+}
+
+class _LabScreenState extends State<LabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,11 +20,11 @@ class LabScreen extends StatelessWidget {
           Container(
               height: 600,
               child: ListView.builder(
-                itemCount: value.getRequestList.length,
+                itemCount: value.getRequests.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(value.getRequestList[index]['Lab Name']),
-                    subtitle: Text(value.getRequestList[index]['Unit']),
+                    title: Text(value.getRequests[index]['Lab Name']),
+                    subtitle: Text(value.getRequests[index]["Unit"]),
                   );
                 },
               ))
