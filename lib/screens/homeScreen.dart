@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:klabs/providers/fireStoreProvider.dart';
+import 'package:klabs/providers/sheetsProvider.dart';
 import 'package:klabs/screens/homepage.dart';
 import 'package:klabs/screens/labScreen.dart';
 import 'package:klabs/screens/profile.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
         body: ChangeNotifierProvider(
-          create: (_) => Firestoredata(),
+          create: (_) => SheetData(),
           child: pages[currentPage],
         ),
         floatingActionButton: FloatingActionButton(
