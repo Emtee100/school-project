@@ -1,13 +1,9 @@
 // ignore_for_file: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:klabs/providers/fireStoreProvider.dart';
-import 'package:klabs/providers/sheetsProvider.dart';
 import 'package:klabs/screens/homepage.dart';
 import 'package:klabs/screens/labScreen.dart';
 import 'package:klabs/screens/profile.dart';
-import 'package:provider/provider.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,10 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
-        body: ChangeNotifierProvider(
-          create: (_) => SheetData(),
-          child: pages[currentPage],
-        ),
+        body: pages[currentPage],
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             FirebaseAuth.instance.signOut();

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Labtile extends StatelessWidget {
-  const Labtile({super.key, required this.labName, required this.computers});
+  const Labtile({super.key, required this.labName, required this.computers, required this.index});
 
   final String labName;
+  final int index;
   final int computers;
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,12 @@ class Labtile extends StatelessWidget {
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                'assets/images/tc-01.jpg',
-                //width: 200,
+              child: Hero(
+                tag: 'image $index',
+                child: Image.asset(
+                  'assets/images/tc-01.jpg',
+                  //width: 200,
+                ),
               )),
           const SizedBox(
             width: 15,
