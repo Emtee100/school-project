@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:klabs/providers/sheetsProvider.dart';
 
 class Schedule extends StatefulWidget {
@@ -24,16 +25,56 @@ class _ScheduleState extends State<Schedule> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(snapshot.data![index][5]),
-                subtitle: Text(snapshot.data![index][3]),
+              return Container(
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+
+                    // the unit's code
+                    Text(
+                      snapshot.data![index][4],
+                      style: GoogleFonts.notoSans(),
+                    ),
+                    Text(
+                      snapshot.data![index][2],
+                      style: GoogleFonts.notoSans(),
+                    ),
+                    // the unit name
+                    Text(
+                      snapshot.data![index][5],
+                      style: GoogleFonts.notoSans(),
+                      maxLines: 2,
+                    ),
+
+                    // the unit lecturer
+                    Text(
+                      snapshot.data![index][6],
+                      style: GoogleFonts.notoSans(),
+                    ),
+
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               );
             },
           );
         } else if (snapshot.hasError) {
           return const Text("Error loading data");
         } else {
-          return Text('We wacha');
+          return const Text('We wacha');
         }
       },
     );

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:klabs/components/labTile.dart';
-import 'package:klabs/providers/sheetsProvider.dart';
-import 'package:provider/provider.dart';
 
 class LabScreen extends StatefulWidget {
   const LabScreen({super.key});
@@ -31,6 +29,8 @@ class _LabScreenState extends State<LabScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () =>
+                  //we're giving the index as arguments in order to help with the unique
+                  // labelling of the tag of the hero widget
                       Navigator.pushNamed(context, labInfo[index]['name'], arguments: index),
                   child: Labtile(
                       index: index,
