@@ -1,9 +1,13 @@
 // ignore_for_file: file_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:klabs/providers/fireStoreProvider.dart';
 import 'package:klabs/screens/homepage.dart';
 import 'package:klabs/screens/labScreen.dart';
 import 'package:klabs/screens/profile.dart';
+import 'package:klabs/screens/requestPage.dart';
+import 'package:provider/provider.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -16,7 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     const HomePage(),
     const LabScreen(),
-    const ProfilePage()
+    const Requests(),
+    const ProfilePage(),
   ];
 
   @override
@@ -27,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
-        body: pages[currentPage],
+        body: ChangeNotifierProvider(
+          create: (_) => Firestoredata(),
+          child: pages[currentPage]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             FirebaseAuth.instance.signOut();
@@ -38,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: "Home"),
             NavigationDestination(icon: Icon(Icons.computer), label: "Labs"),
+            NavigationDestination(icon: FaIcon(FontAwesomeIcons.codePullRequest,size: 20), label: 'Requests'),
             NavigationDestination(
                 icon: Icon(Icons.account_circle), label: "Account")
           ],
