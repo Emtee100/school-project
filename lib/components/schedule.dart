@@ -18,9 +18,9 @@ class _ScheduleState extends State<Schedule> {
       future: widget.sheet.filterByDay(widget.sheet.listOfDays, widget.title),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.connectionState == ConnectionState.done) {
           return ListView.builder(
             itemCount: snapshot.data!.length,

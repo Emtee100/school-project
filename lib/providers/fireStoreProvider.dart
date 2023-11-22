@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Firestoredata extends ChangeNotifier {
@@ -21,8 +22,16 @@ class Firestoredata extends ChangeNotifier {
   // get requestData => _reqeustList;he ol wa is upddhheiilkjhe ol wa ki suphe olwa he ol wa is uphe olwa is uphe olwa is up he ol wa i up
 
 //add a request
-  void addRequest() {
-    requestsRef.add({});
+  void addRequest(String labName, String unit, String newTime, String reason) {
+    requestsRef.add({
+      'Lab Name': labName.trim(),
+      'Unit': unit.trim(),
+      'New Time': newTime.trim(),
+      'Reason': reason.trim(),
+      'Request Date':'22/11/2023',
+      'Status': 'pending',
+      'userId': 't6jERtoBZjRtOVF7dCJlzlCw9Xs2'
+    });
     notifyListeners();
   }
 

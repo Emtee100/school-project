@@ -196,7 +196,7 @@ class _FiltersState extends State<Filters> {
                   // const SizedBox(
                   //   height: 10,
                   // ),
-                  Container(
+                  SizedBox(
                     height: 600,
                     child: Schedule(
                       sheet: value,

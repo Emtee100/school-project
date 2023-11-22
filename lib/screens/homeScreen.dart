@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:klabs/providers/fireStoreProvider.dart';
@@ -35,12 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ChangeNotifierProvider(
           create: (_) => Firestoredata(),
           child: pages[currentPage]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-          },
-          child: const Icon(Icons.logout_rounded),
-        ),
         bottomNavigationBar: NavigationBar(
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: "Home"),

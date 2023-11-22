@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:klabs/components/requestData.dart';
+import 'package:klabs/providers/fireStoreProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../components/filters.dart';
@@ -80,6 +82,32 @@ class _Tc03State extends State<Tc05> {
               ))
         ],
       ),
-    ));
+    ),
+    floatingActionButton: FloatingActionButton.extended(
+        label: Text("Make request", style: GoogleFonts.notoSans(),),
+        onPressed: () => showModalBottomSheet(
+            showDragHandle: true,
+            context: context,
+            enableDrag: true,
+            isScrollControlled: true,
+            builder: (context) => Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        Text(
+                          'Make Lab Request',
+                          style: GoogleFonts.notoSans(fontSize: 15),
+                        ),
+                        ChangeNotifierProvider(
+                          create: (_)=> Firestoredata(),
+                          child: const RequestFields())
+                      ]),
+                    ),
+                  ),
+                )),
+      ),
+    );
   }
 }
