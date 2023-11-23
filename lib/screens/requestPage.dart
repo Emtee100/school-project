@@ -42,6 +42,11 @@ class _RequestsState extends State<Requests> {
                         return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
+                            DateTime requestDate =
+                                snapshot.data![index]['Request Date'].toDate();
+                            int year = requestDate.year;
+                            int month = requestDate.month;
+                            int day = requestDate.day;
                             if (snapshot.data!.isNotEmpty) {
                               return Container(
                                 margin: const EdgeInsets.symmetric(
@@ -58,7 +63,7 @@ class _RequestsState extends State<Requests> {
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.asset(
                                         'assets/images/tc-01.jpg',
-                                        width: 170,
+                                        width: 150,
                                       ),
                                     ),
                                     const SizedBox(
@@ -87,9 +92,14 @@ class _RequestsState extends State<Requests> {
                                             height: 10,
                                           ),
                                           Text(
-                                            'Date of request: ' +
-                                                snapshot.data![index]
-                                                    ['Request Date'],
+                                            'Rescheduled time: ${snapshot.data![index]['New Time']}',
+                                            style: GoogleFonts.notoSans(),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Date of request: ${day.toString().padLeft(2, '0')}-${month.toString().padLeft(2, '0')}-$year',
                                             style: GoogleFonts.notoSans(),
                                           ),
                                         ],

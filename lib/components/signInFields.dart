@@ -28,8 +28,20 @@ class _SignInFormState extends State<SignInForm> {
 
   Future signInMethod() async {
     try {
+      showDialog(
+          barrierColor: Colors.black26,
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ));
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         setState(() => _passwordError = true);
@@ -169,7 +181,8 @@ class _SignInFormState extends State<SignInForm> {
           )
         ]));
   }
- @override
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();

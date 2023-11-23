@@ -4,6 +4,7 @@ import 'package:klabs/components/firebaseauthState.dart';
 import 'package:klabs/components/onboardingScreen1.dart';
 import 'package:klabs/components/onboardingScreen2.dart';
 import 'package:klabs/components/onboardingScreen3.dart';
+import 'package:klabs/transitions/customRoute.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -54,6 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   GestureDetector(
                       onTap: () {
+                        // throw Exception();
                         _controller.previousPage(
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.decelerate);
@@ -85,11 +87,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   GestureDetector(
                       onTap: () {
                         _lastPage
-                            ? Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const AuthPage();
-                                },
-                              ))
+                            ? Navigator.push(context, CustomPageRoute(child: const AuthPage()))
+                              
                             : _controller.nextPage(
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.decelerate);
